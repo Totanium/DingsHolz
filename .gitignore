@@ -1,0 +1,9 @@
+# lokale Claude-/Editor-Einstellungen
+.claude/
+.vscode/
+.idea/
+
+# Exporte
+*.csv
+*.png
+*.pdf

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holztisch-Planer</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Holztisch-Planer</h1>
+    <p>Bild → Holzmosaik aus schrägen Teilen → Bauplan</p>
+  </header>
+
+  <main class="layout">
+    <aside class="controls" id="controls">
+      <section>
+        <h2>Bild</h2>
+        <label class="drop-zone" id="dropZone">
+          <input type="file" id="imageInput" accept="image/*">
+          <span>Bild auswählen oder hierher ziehen</span>
+        </label>
+      </section>
+
+      <section>
+        <h2>Tischplatte (cm)</h2>
+        <div class="field-grid">
+          <label>Breite <input type="number" min="1" step="0.5" data-setting="tableWidth"></label>
+          <label>Tiefe <input type="number" min="1" step="0.5" data-setting="tableHeight"></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Teil (cm)</h2>
+        <div class="field-grid three">
+          <label>Kante <input type="number" min="0.5" step="0.5" data-setting="pieceSize"></label>
+          <label>Niedrig <input type="number" min="0" step="0.5" data-setting="lowHeight"></label>
+          <label>Hoch <input type="number" min="0.5" step="0.5" data-setting="highHeight"></label>
+        </div>
+        <p class="note">Kante = Seitenlänge der quadratischen Grundfläche.</p>
+      </section>
+
+      <section>
+        <h2>Hölzer</h2>
+        <div id="woodList"></div>
+        <h3>Verfügbare Töne</h3>
+        <div class="tone-list" id="toneList"></div>
+        <p class="note">Jedes Holz wirkt je nach Richtung der Spitze heller oder dunkler.</p>
+      </section>
+
+      <section>
+        <h2>Gestaltung</h2>
+        <label class="range">Lichtrichtung <output></output>°
+          <input type="range" min="0" max="345" step="15" data-setting="lightAzimuth">
+        </label>
+        <label class="range">Lichthöhe <output></output>°
+          <input type="range" min="15" max="85" step="5" data-setting="lightElevation">
+        </label>
+        <label class="range">Konturen betonen <output></output>
+          <input type="range" min="0" max="40" step="1" data-setting="contourWeight">
+        </label>
+        <label class="range">Ruhige Richtungen <output></output>
+          <input type="range" min="0" max="20" step="1" data-setting="coherenceWeight">
+        </label>
+        <label class="checkbox"><input type="checkbox" data-setting="dithering"> Feine Verläufe (Dithering)</label>
+        <p class="note">Lichtrichtung: 0° = von oben im Plan, 90° = von rechts, 315° = von links oben.</p>
+      </section>
+
+      <section>
+        <h2>Export</h2>
+        <div class="buttons">
+          <button type="button" id="printButton" disabled>Bauplan drucken / PDF</button>
+          <button type="button" id="csvButton" disabled>Teileliste (CSV)</button>
+          <button type="button" id="pngButton" disabled>Vorschau (PNG)</button>
+        </div>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <p class="summary" id="summary"></p>
+      <div class="canvases" id="canvases" hidden>
+        <figure class="original">
+          <canvas id="originalCanvas"></canvas>
+          <figcaption>Original (zugeschnitten)</figcaption>
+        </figure>
+        <figure>
+          <canvas id="previewCanvas"></canvas>
+          <figcaption>Holz-Vorschau (Draufsicht)</figcaption>
+        </figure>
+      </div>
+      <div id="blueprint" class="blueprint"></div>
+    </section>
+  </main>
+
+  <!-- Klassische Skripte (keine Module), damit die Seite per Doppelklick ohne Server läuft. Reihenfolge = Abhängigkeiten. -->
+  <script src="js/core/color.js"></script>
+  <script src="js/core/dom.js"></script>
+  <script src="js/model/orientation.js"></script>
+  <script src="js/model/woodType.js"></script>
+  <script src="js/model/settings.js"></script>
+  <script src="js/model/tablePlan.js"></script>
+  <script src="js/engine/imageCrop.js"></script>
+  <script src="js/engine/imageSampler.js"></script>
+  <script src="js/engine/toneModel.js"></script>
+  <script src="js/engine/patternGenerator.js"></script>
+  <script src="js/render/previewRenderer.js"></script>
+  <script src="js/render/blueprintRenderer.js"></script>
+  <script src="js/export/planExport.js"></script>
+  <script src="js/ui/settingsForm.js"></script>
+  <script src="js/ui/woodPaletteEditor.js"></script>
+  <script src="js/ui/tonePaletteView.js"></script>
+  <script src="js/ui/settingsStore.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
